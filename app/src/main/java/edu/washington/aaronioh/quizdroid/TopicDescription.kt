@@ -1,5 +1,6 @@
 package edu.washington.aaronioh.quizdroid
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -14,6 +15,7 @@ class TopicDescription : AppCompatActivity() {
         val topic = intent.getStringExtra("topic")
         val description = intent.getStringExtra("description")
         val questions = intent.getStringArrayExtra("questions")
+        val answers = intent.getStringArrayExtra("answers")
         val num = questions.size
 
         val textTopic = findViewById<TextView>(R.id.textTopic) as TextView
@@ -26,7 +28,13 @@ class TopicDescription : AppCompatActivity() {
         textNumQuestions.text = "Number of questions: " + num
 
         buttonBegin.setOnClickListener {
-            //val intent = Intent(this, )
+            val intent = Intent(this, Quiz::class.java).apply {
+                putExtra("questions", questions)
+                putExtra("answers", answers)
+                putExtra("currQuestion", 0)
+                putExtra("totalQuestions", num)
+            }
+            startActivity(intent)
         }
     }
 }
