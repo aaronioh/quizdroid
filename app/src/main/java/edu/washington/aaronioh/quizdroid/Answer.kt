@@ -1,6 +1,7 @@
 package edu.washington.aaronioh.quizdroid
 
 import android.content.Intent
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -23,12 +24,21 @@ class Answer : AppCompatActivity() {
 
         val userAns = findViewById<TextView>(R.id.textUserAns) as TextView
         val correctAns = findViewById<TextView>(R.id.textCorrectAns) as TextView
+        val status = findViewById<TextView>(R.id.textStatus) as TextView
         val record = findViewById<TextView>(R.id.textRecord) as TextView
         val buttonNext = findViewById<Button>(R.id.buttonNext) as Button
 
         userAns.text = "You chose: " + selectedAns
         correctAns.text = "Correct answer: " + correct
         record.text = "You have " + numCorrect + " out of " + currQuestion + " correct"
+
+        if (selectedAns == correct) {
+            status.text = "Correct"
+            status.setTextColor(Color.GREEN)
+        } else {
+            status.text = "Incorrect"
+            status.setTextColor(Color.RED)
+        }
 
         val end = currQuestion == totalQuestions
         buttonNext.text = if (end) "Finish" else "Next"
