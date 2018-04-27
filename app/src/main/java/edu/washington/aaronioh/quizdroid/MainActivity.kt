@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         listView.adapter = adapter
 
         listView.setOnItemClickListener { _, _, position, id ->
-            val intent = Intent(this, TopicDescription::class.java).apply {
+            val intent = Intent(this, QuizFragment::class.java).apply {
                 putExtra("topic", topics[position])
                 putExtra("description", descriptions[position])
                 putExtra("questions", questions[topics[position]])
