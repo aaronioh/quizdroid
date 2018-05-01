@@ -10,19 +10,15 @@ import android.widget.TextView
 
 class TopicFragment : Fragment() {
 
-    var topic = ""
-    var desc = ""
-    var questions : Array<String> = arrayOf()
-    var answers : Array<String> = arrayOf()
+    private lateinit var topic : Topic
+    var topicPos = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            topic = arguments.getString("topic")
-            desc = arguments.getString("desc")
-            questions = arguments.getStringArray("questions")
-            answers = arguments.getStringArray("answers")
+            topicPos = arguments.getInt("topicPos")
+            topic = QuizApp.instance.getTopic(topicPos)
         }
     }
 
@@ -34,21 +30,18 @@ class TopicFragment : Fragment() {
         val textNumQuestions = view.findViewById<TextView>(R.id.textNumQuestions) as TextView
         val buttonBegin = view.findViewById<Button>(R.id.buttonBegin) as Button
 
-        textTopic.text = topic
-        textDesc.text = desc
-        textNumQuestions.text = "Number of questions: " + questions.size
+        textTopic.text = topic.title
+        textDesc.text = topic.shortDesc
+        textNumQuestions.text = "Number of questions: " + topic.questions.size
 
         buttonBegin.setOnClickListener {
             val transaction = fragmentManager.beginTransaction()
             val questionFragment = QuestionFragment()
 
             val instance = Bundle()
-            instance.putStringArray("questions", questions)
-            instance.putStringArray("answers", answers)
+            instance.putInt("topicPos", topicPos)
             instance.putInt("numCorrect", 0)
             instance.putInt("currQuestion", 0)
-            instance.putInt("totalQuestions", questions.size)
-            instance.putInt("ansIndex", 0)
 
             questionFragment.arguments = instance
             transaction.replace(R.id.fragmentContainer, questionFragment).commit()
