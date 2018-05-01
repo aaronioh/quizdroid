@@ -11,21 +11,15 @@ class QuizFragment : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_quiz_fragment)
 
-        val topic = intent.getStringExtra("topic")
-        val desc = intent.getStringExtra("description")
-        val questions = intent.getStringArrayExtra("questions")
-        val answers = intent.getStringArrayExtra("answers")
+        val topicPos = intent.getIntExtra("topicPos", 0)
 
         val transaction = fragmentManager.beginTransaction()
 
-        val instance = Bundle()
-        instance.putString("topic", topic)
-        instance.putString("desc", desc)
-        instance.putStringArray("questions", questions)
-        instance.putStringArray("answers", answers)
+        val bundle = Bundle()
+        bundle.putInt("topicPos", topicPos)
 
         val topicFragment = TopicFragment()
-        topicFragment.arguments = instance
+        topicFragment.arguments = bundle
 
         transaction.add(R.id.fragmentContainer, topicFragment).commit()
     }

@@ -11,23 +11,20 @@ import android.widget.RadioGroup
 import android.widget.TextView
 
 class QuestionFragment : Fragment() {
-    var questions : Array<String> = arrayOf()
-    var answers : Array<String> = arrayOf()
-    var numCorrect = 0;
-    var currQuestion = 0;
-    var totalQuestions = 0;
-    var ansIndex = 0;
+    lateinit var topic : Topic
+    var topicPos = 0
+    var numCorrect = 0
+    var currQuestion = 0
+    var ansIndex = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            questions = arguments.getStringArray("questions")
-            answers = arguments.getStringArray("answers")
+            topicPos = arguments.getInt("topicPos")
+            topic = QuizApp.instance.getTopic(topicPos)
             numCorrect = arguments.getInt("numCorrect")
             currQuestion = arguments.getInt("currQuestion")
-            totalQuestions = arguments.getInt("totalQuestions")
-            ansIndex = arguments.getInt("ansIndex")
         }
     }
 
@@ -48,29 +45,27 @@ class QuestionFragment : Fragment() {
             submit.isEnabled = true
         })
 
-        question.text = questions[currQuestion]
+        val quiz = topic.questions[currQuestion]
+        question.text = quiz.question
         questionNum.text = "Question #" + (currQuestion + 1)
-        ans1.text = answers[ansIndex]
-        ans2.text = answers[ansIndex + 1]
-        ans3.text = answers[ansIndex + 2]
-        ans4.text = answers[ansIndex + 3]
+        ans1.text = quiz.answers[ansIndex]
+        ans2.text = quiz.answers[ansIndex + 1]
+        ans3.text = quiz.answers[ansIndex + 2]
+        ans4.text = quiz.answers[ansIndex + 3]
         submit.text = "Submit"
 
         submit.setOnClickListener {
             val selected = view.findViewById<RadioButton>(choices.checkedRadioButtonId).text.toString()
-            val answer = answers[ansIndex + 4]
+            val answer = quiz.answers[quiz.answerIndex]
             val newCorrect = if (selected == answer) numCorrect + 1 else numCorrect
 
             val transaction = fragmentManager.beginTransaction()
             val answerFragment = AnswerFragment()
 
             val instance = Bundle()
-            instance.putStringArray("questions", questions)
-            instance.putStringArray("answers", answers)
+            instance.putInt("topicPos", topicPos)
             instance.putInt("numCorrect", newCorrect)
             instance.putInt("currQuestion", currQuestion + 1)
-            instance.putInt("totalQuestions", totalQuestions)
-            instance.putInt("ansIndex", ansIndex + 5)
             instance.putString("selectedAns", selected)
             instance.putString("correctAns", answer)
 

@@ -11,12 +11,10 @@ import android.widget.Button
 import android.widget.TextView
 
 class AnswerFragment : Fragment() {
-    var questions : Array<String> = arrayOf()
-    var answers : Array<String> = arrayOf()
-    var numCorrect = 0;
-    var currQuestion = 0;
-    var totalQuestions = 0;
-    var ansIndex = 0;
+    private lateinit var topic : Topic
+    var topicPos = 0
+    var numCorrect = 0
+    var currQuestion = 0
     var selectedAns = ""
     var correctAns = ""
 
@@ -24,12 +22,10 @@ class AnswerFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            questions = arguments.getStringArray("questions")
-            answers = arguments.getStringArray("answers")
+            topicPos = arguments.getInt("topicPos")
+            topic = QuizApp.instance.getTopic(topicPos)
             numCorrect = arguments.getInt("numCorrect")
             currQuestion = arguments.getInt("currQuestion")
-            totalQuestions = arguments.getInt("totalQuestions")
-            ansIndex = arguments.getInt("ansIndex")
             selectedAns = arguments.getString("selectedAns")
             correctAns = arguments.getString("correctAns")
         }
@@ -56,7 +52,7 @@ class AnswerFragment : Fragment() {
             status.setTextColor(Color.RED)
         }
 
-        val end = currQuestion == totalQuestions
+        val end = currQuestion == topic.questions.size
         buttonNext.text = if (end) "Finish" else "Next"
 
         buttonNext.setOnClickListener {
@@ -64,12 +60,9 @@ class AnswerFragment : Fragment() {
                 val transaction = fragmentManager.beginTransaction()
 
                 val instance = Bundle()
-                instance.putStringArray("questions", questions)
-                instance.putStringArray("answers", answers)
+                instance.putInt("topicPos", topicPos)
                 instance.putInt("numCorrect", numCorrect)
                 instance.putInt("currQuestion", currQuestion)
-                instance.putInt("totalQuestions", totalQuestions)
-                instance.putInt("ansIndex", ansIndex)
 
                 val questionFragment = QuestionFragment()
                 questionFragment.arguments = instance
