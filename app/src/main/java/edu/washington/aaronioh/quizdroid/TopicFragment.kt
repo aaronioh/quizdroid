@@ -31,7 +31,7 @@ class TopicFragment : Fragment() {
         val buttonBegin = view.findViewById<Button>(R.id.buttonBegin) as Button
 
         textTopic.text = topic.title
-        textDesc.text = topic.shortDesc
+        textDesc.text = topic.longDesc
         textNumQuestions.text = "Number of questions: " + topic.questions.size
 
         buttonBegin.setOnClickListener {
