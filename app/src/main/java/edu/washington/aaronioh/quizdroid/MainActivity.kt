@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val app = QuizApp
-        val topics = app.topics
+        val topics = app.instance.getTopics()
 
         val listView = findViewById<ListView>(R.id.listViewTopics) as ListView
 
