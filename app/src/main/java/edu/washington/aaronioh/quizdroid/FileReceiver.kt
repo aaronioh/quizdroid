@@ -20,9 +20,10 @@ class FileReceiver : BroadcastReceiver() {
         Log.i("FileReceiver", "Downloading from " + url)
         val request = DownloadManager.Request(Uri.parse(url))
         val downloadManager = p0!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        request.setTitle("Download")
-        request.setDescription("Downloading json file")
+        request.setTitle("question.json")
+        request.setDescription("Questions for Quizdroid")
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "questions.json")
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
         downloadManager.enqueue(request)
         Log.i("FileReceiver", "Download requested")
     }
