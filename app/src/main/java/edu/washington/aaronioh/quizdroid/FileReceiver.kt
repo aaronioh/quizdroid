@@ -17,6 +17,7 @@ class FileReceiver : BroadcastReceiver() {
 
     override fun onReceive(p0: Context, p1: Intent) {
         val url = p1!!.getStringExtra("url")
+        Log.i("FileReceiver", "Downloading from " + url)
         val request = DownloadManager.Request(Uri.parse(url))
         val downloadManager = p0!!.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
         request.setTitle("Download")

@@ -29,6 +29,7 @@
         <activity android:name=".Quiz" />
         <activity android:name=".Answer" />
         <activity android:name=".QuizFragment" />
+        <receiver android:name=".FileReceiver" />
         <activity
             android:name=".Preferences"
             android:label="@string/title_activity_preferences" />
