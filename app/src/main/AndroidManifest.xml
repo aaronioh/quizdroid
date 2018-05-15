@@ -3,6 +3,11 @@
     package="edu.washington.aaronioh.quizdroid">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+        <!--android:maxSdkVersion="18"-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+        <!--android:maxSdkVersion="18"-->
 
     <application
         android:name=".QuizApp"
@@ -23,6 +28,7 @@
         <activity android:name=".Quiz" />
         <activity android:name=".Answer" />
         <activity android:name=".QuizFragment" />
+        <receiver android:name=".FileReceiver" ></receiver>
         <activity
             android:name=".Preferences"
             android:label="@string/title_activity_preferences" />

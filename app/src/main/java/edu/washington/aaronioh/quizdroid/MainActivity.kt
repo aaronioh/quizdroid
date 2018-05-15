@@ -1,8 +1,10 @@
 package edu.washington.aaronioh.quizdroid
 
+import android.Manifest
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
@@ -15,21 +17,25 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.my_toolbar))
 
-        val app = QuizApp
-        val topics = app.instance.getTopics()
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
 
-        val listView = findViewById<ListView>(R.id.listViewTopics) as ListView
+        if (!OnlineRepository().topics.isEmpty()) {
+            val app = QuizApp
+            val topics = app.instance.getTopics()
 
-        val topicsList = listOf(topics[0].title, topics[1].title, topics[2].title)
+            val listView = findViewById<ListView>(R.id.listViewTopics) as ListView
 
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, topicsList)
-        listView.adapter = adapter
+            val topicsList = listOf(topics[0].title, topics[1].title, topics[2].title)
 
-        listView.setOnItemClickListener { _, _, position, id ->
-            val intent = Intent(this, QuizFragment::class.java).apply {
-                putExtra("topicPos", position)
+            val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, topicsList)
+            listView.adapter = adapter
+
+            listView.setOnItemClickListener { _, _, position, id ->
+                val intent = Intent(this, QuizFragment::class.java).apply {
+                    putExtra("topicPos", position)
+                }
+                startActivity(intent)
             }
-            startActivity(intent)
         }
     }
 
