@@ -23,7 +23,6 @@ class FileReceiver : BroadcastReceiver() {
         request.setTitle("Download")
         request.setDescription("Downloading json file")
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "questions.json")
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
         downloadManager.enqueue(request)
         Log.i("FileReceiver", "Download requested")
     }

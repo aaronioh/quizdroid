@@ -39,6 +39,11 @@ class Preferences : AppCompatActivity() {
         val intent = Intent(this, FileReceiver::class.java)
 
         submitURL.setOnClickListener {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Preferences", "Permission check")
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
+            }
             val airplaneMode = Settings.System.getInt(this.contentResolver, Settings.Global.AIRPLANE_MODE_ON, 0)
             val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
             val networkAvailable = connectivityManager.activeNetworkInfo != null
@@ -54,10 +59,6 @@ class Preferences : AppCompatActivity() {
                 builder.create().show()
             } else if (!networkAvailable) {
                 Toast.makeText(this, "Error: no access to Internet", Toast.LENGTH_SHORT).show()
-            } else if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    != PackageManager.PERMISSION_GRANTED) {
-                Log.i("Preferences", "Permission check")
-                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), 0)
             } else {
                 Log.i("Preferences", "Download from URL")
                 intent.putExtra("url", url.text.toString())
